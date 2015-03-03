@@ -1,8 +1,11 @@
 require_relative '../core/TwitterRequest'
 
-class UsersSuggestionsCategories < TwitterRequest
+class UsersSuggestions < TwitterRequest
 
   def initialize(args)
+    @slug = args[:params][:category]
+    args[:params].delete(:category)
+    puts @slug
     super args
   end
 
@@ -15,7 +18,7 @@ class UsersSuggestionsCategories < TwitterRequest
   end
 
   def url
-    'https://api.twitter.com/1.1/users/suggestions.json'
+    'https://api.twitter.com/1.1/users/suggestions/' + @slug + '.json'
   end
 
   def success(response)
