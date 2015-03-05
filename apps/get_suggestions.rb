@@ -53,19 +53,29 @@ if __FILE__ == $0
   if input[:category].nil?
     twitter = UsersSuggestionsCategories.new(args)
     fileName = 'user_suggestion_categories.txt'
+    puts "Collecting the user suggestion Categories."
+
+    File.open(fileName, 'w') do |f|
+      twitter.collect do |ids|
+        ids.each do |id|
+          f.puts "#{id}\n"
+        end
+      end
+    end
+
   else
     twitter = UsersSuggestions.new(args)
     fileName = 'user_suggestions_' + input[:category] + '.txt'
-  end
+    puts "Collecting the user suggestions."
 
-  puts "Collecting the user suggestions."
-
-  File.open(fileName, 'w') do |f|
-    twitter.collect do |ids|
-      ids.each do |id|
-        f.puts "#{id}\n"
+    File.open(fileName, 'w') do |f|
+      twitter.collect do |ids|
+        ids["users"].each do |id|
+          f.puts "#{id}\n"
+        end
       end
     end
+          
   end
 
   puts "DONE."
